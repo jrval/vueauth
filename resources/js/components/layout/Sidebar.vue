@@ -39,7 +39,7 @@
                 <span>Permissions</span></a>
         </router-link>
 
-        <router-link tag="li" :to="{ name: 'role-table' }" class="nav-item"  v-if="currentUser">
+        <router-link tag="li" :to="{ name: 'role-table' }" class="nav-item"  v-if="currentUser | $is('supervisor') " >
             <a class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Roles</span></a>

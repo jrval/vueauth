@@ -89,7 +89,6 @@
                 this.$store.dispatch('login');
                 login(this.$data.form)
                 .then((res)=>{
-                    console.log('aw');
                     this.$store.commit('loginSuccess',res);
                     this.$router.push({name:'home'});
                 }).catch((error)=>{

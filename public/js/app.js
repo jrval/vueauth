@@ -2096,8 +2096,6 @@ __webpack_require__.r(__webpack_exports__);
       this.errors = '';
       this.$store.dispatch('login');
       Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["login"])(this.$data.form).then(function (res) {
-        console.log('aw');
-
         _this.$store.commit('loginSuccess', res);
 
         _this.$router.push({
@@ -2950,7 +2948,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -2958,7 +2956,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         console.log(uri);
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -3372,7 +3370,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -3380,7 +3378,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         console.log(uri);
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -3897,7 +3895,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -3905,7 +3903,7 @@ __webpack_require__.r(__webpack_exports__);
           console.log(_this.users);
         });
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -3982,11 +3980,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     $can: function $can(currentUser) {
-      var _this = this;
+      if (this.user_permissions.length) {
+        return this.user_permissions.includes(currentUser);
+      }
 
-      axios.get('/api/auth-user').then(function (response) {
-        _this.user_permissions = JSON.stringify(response.data.permissions);
-      });
+      this.$store.dispatch('getUserAuth');
+      this.user_permissions = this.$store.getters.authPermissions;
       return this.user_permissions.includes(currentUser);
     }
   }
@@ -4014,11 +4013,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     $is: function $is(currentUser) {
-      var _this = this;
+      if (this.user_roles.length) {
+        return this.user_roles.includes(currentUser);
+      }
 
-      axios.get('/api/auth-user').then(function (response) {
-        _this.user_roles = JSON.stringify(response.data.roles);
-      });
+      this.$store.dispatch('getUserAuth');
+      this.user_roles = this.$store.getters.authRoles;
       return this.user_roles.includes(currentUser);
     }
   }
@@ -26802,7 +26802,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.currentUser
+      _vm.currentUser | _vm.$is("supervisor")
         ? _c(
             "router-link",
             {
@@ -50979,7 +50979,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = "http://vueauth.test:85";
+window.axios.defaults.baseURL = "http://vueauth.test";
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -52787,13 +52787,14 @@ function setAuthorization(token) {
 /*!*********************************************!*\
   !*** ./resources/js/mixins/Permissions.vue ***!
   \*********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Permissions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Permissions.vue?vue&type=script&lang=js& */ "./resources/js/mixins/Permissions.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Permissions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Permissions_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 var render, staticRenderFns
 
 
@@ -52823,7 +52824,7 @@ component.options.__file = "resources/js/mixins/Permissions.vue"
 /*!**********************************************************************!*\
   !*** ./resources/js/mixins/Permissions.vue?vue&type=script&lang=js& ***!
   \**********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53087,7 +53088,9 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     currentUser: user,
     isLoggedIn: !!user,
     loading: false,
-    auth_error: null
+    auth_error: null,
+    auth_permissions: [],
+    auth_roles: []
   },
   getters: {
     isLoading: function isLoading(state) {
@@ -53101,6 +53104,12 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
     },
     authError: function authError(state) {
       return state.auth_error;
+    },
+    authPermissions: function authPermissions(state) {
+      return state.auth_permissions;
+    },
+    authRoles: function authRoles(state) {
+      return state.auth_roles;
     }
   },
   mutations: {
@@ -53126,12 +53135,25 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
       localStorage.removeItem("user");
       state.isLoggedIn = false;
       state.currentUser = null;
+    },
+    updateAuthPermissions: function updateAuthPermissions(state, payload) {
+      state.auth_permissions = payload;
+    },
+    updateAuthRoles: function updateAuthRoles(state, payload) {
+      state.auth_roles = payload;
     }
   },
   actions: {
     login: function login(context) {
       console.log(context);
       context.commit('login');
+    },
+    getUserAuth: function getUserAuth(context) {
+      axios.get('/api/auth-user').then(function (response) {
+        console.log(context);
+        context.commit('updateAuthPermissions', JSON.stringify(response.data.permissions));
+        context.commit('updateAuthRoles', response.data.roles);
+      });
     }
   }
 });
@@ -53156,8 +53178,8 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\vueauth\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

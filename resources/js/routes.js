@@ -138,7 +138,8 @@ export const routes = [
         component: Role,
         meta: {
             title: 'Roles',
-            requiresAuth: true
+            requiresAuth: true,
+
         },children: [
             {
                 path: '/',

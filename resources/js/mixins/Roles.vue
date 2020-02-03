@@ -10,11 +10,11 @@
         },
         methods: {
             $is(currentUser) {
-                axios.get('/api/auth-user')
-                    .then((response) => {
-                        this.user_roles = JSON.stringify(response.data.roles);
-                    });
-
+                if (this.user_roles.length) {
+                    return this.user_roles.includes(currentUser);
+                }
+                this.$store.dispatch('getUserAuth');
+                this.user_roles = this.$store.getters.authRoles
                 return this.user_roles.includes(currentUser);
             },
         },

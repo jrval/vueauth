@@ -8,6 +8,8 @@ export default {
         isLoggedIn: !!user,
         loading:false,
         auth_error:null,
+        auth_permissions:[],
+        auth_roles:[]
     },
     getters:{
         isLoading(state){
@@ -22,8 +24,12 @@ export default {
         authError(state){
             return state.auth_error;
         },
-
-
+        authPermissions(state) {
+            return state.auth_permissions;
+        },
+        authRoles(state) {
+            return state.auth_roles;
+        }
     },
     mutations:{
         login(state){
@@ -47,13 +53,28 @@ export default {
             localStorage.removeItem("user");
             state.isLoggedIn = false;
             state.currentUser = null;
-        }
+        },
+        updateAuthPermissions(state, payload) {
+            state.auth_permissions = payload;
+        },
+        updateAuthRoles(state, payload) {
+            state.auth_roles = payload;
+        },
     },
 
     actions:{
         login(context){
             console.log(context);
             context.commit('login');
+        },
+        getUserAuth(context) {
+            axios.get('/api/auth-user')
+                .then((response) => {
+                    console.log(context)
+                     context.commit('updateAuthPermissions', JSON.stringify(response.data.permissions));
+                     context.commit('updateAuthRoles', response.data.roles);
+                })
         }
+
     }
 }

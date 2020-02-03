@@ -9,11 +9,12 @@
         },
         methods: {
             $can(currentUser) {
-                axios.get('/api/auth-user')
-                    .then((response) => {
-                        this.user_permissions = JSON.stringify(response.data.permissions);
-                    });
-                 return this.user_permissions.includes(currentUser);
+                if (this.user_permissions.length) {
+                    return this.user_permissions.includes(currentUser);
+                }
+                this.$store.dispatch('getUserAuth');
+                this.user_permissions = this.$store.getters.authPermissions
+                return this.user_permissions.includes(currentUser);
             },
         },
     };
