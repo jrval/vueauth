@@ -1,0 +1,71 @@
+<template>
+
+    <div id="app">
+
+        <template v-if="currentUser">
+            <div id="wrapper">
+                <Sidebar></Sidebar>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <TopBar></TopBar>
+                        <div class="container-fluid">
+                            <transition name="fade">
+                                <router-view></router-view>
+                            </transition>
+                        </div>
+                    </div>
+
+                    <Footer></Footer>
+                </div>
+            </div>
+        </template>
+        <template v-else>
+            <transition name="fade">
+             <Login></Login>
+            </transition>
+        </template>
+    </div>
+</template>
+
+<script>
+
+
+    import Sidebar from "./layout/Sidebar";
+    import TopBar from "./layout/TopBar";
+    import Footer from "./layout/Footer";
+
+    import Login from "./authentication/Login";
+
+    import Header from "./layout/Header";
+
+
+    export default {
+        name: "App",
+        components: {
+            Footer,
+            TopBar,
+            Sidebar,
+            Header,
+            Login
+        },
+        computed: {
+            currentUser() {
+                return this.$store.getters.currentUser
+            }
+        },
+    }
+</script>
+
+<style>
+    .fade-enter-active,
+    .fade-leave-active {
+        transition-duration: 0.3s;
+        transition-property: opacity;
+        transition-timing-function: ease;
+    }
+
+    .fade-enter,
+    .fade-leave-active {
+        opacity: 0
+    }
+</style>
