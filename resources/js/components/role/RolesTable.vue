@@ -72,6 +72,7 @@
                     </tr>
                     </tbody>
                 </table>
+                <p class="float-left">Showing {{meta.from}} to {{meta.to}} of {{meta.total}} entries</p>
                 <pagination :data="roles" @pagination-change-page="index" :limit="5"/>
             </div>
         </div>
@@ -95,6 +96,7 @@
                     'activeDesc':false,
                     'activeAsc':true
                 },
+                meta:{}
             }
         },
 
@@ -115,6 +117,9 @@
                     axios.get(uri)
                         .then(response => {
                             this.roles = response.data;
+                            this.meta.total = response.data.meta.total;
+                            this.meta.from = response.data.meta.from;
+                            this.meta.to = response.data.meta.to;
                         });
 
                 }else{
@@ -123,8 +128,10 @@
                     this.page = page;
                     axios.get(uri)
                         .then(response => {
-                            console.log(response);
                             this.roles = response.data;
+                            this.meta.total = response.data.meta.total;
+                            this.meta.from = response.data.meta.from;
+                            this.meta.to = response.data.meta.to;
                         });
                 }
             },

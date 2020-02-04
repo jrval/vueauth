@@ -65,7 +65,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <pagination :data="permissions" @pagination-change-page="index" :limit="5"/>
+                <p class="float-left">Showing {{meta.from}} to {{meta.to}} of {{meta.total}} entries</p>
+                <pagination class="float-right" :data="permissions" @pagination-change-page="index" :limit="5"/>
             </div>
         </div>
     </div>
@@ -88,6 +89,7 @@
                     'activeDesc':false,
                     'activeAsc':true
                 },
+                meta:{}
             }
         },
 
@@ -108,6 +110,9 @@
                     axios.get(uri)
                         .then(response => {
                             this.permissions = response.data;
+                            this.meta.total = response.data.meta.total;
+                            this.meta.from = response.data.meta.from;
+                            this.meta.to = response.data.meta.to;
                         });
 
                 }else{
@@ -117,6 +122,9 @@
                     axios.get(uri)
                         .then(response => {
                             this.permissions = response.data;
+                            this.meta.total = response.data.meta.total;
+                            this.meta.from = response.data.meta.from;
+                            this.meta.to = response.data.meta.to;
                         });
                 }
             },

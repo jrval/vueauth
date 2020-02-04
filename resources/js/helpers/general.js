@@ -11,20 +11,21 @@ export function initialize(store, router) {
         if (requiresAuth && !currentUser && !currentPermissions && !currentRoles) {
             next('/login');
         } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
-
             next('/');
         } else {
             // console.log(to);
             // next();
             if (!to.meta.roles) {
                 return next()
+            }else{
+                if (currentRoles.includes(to.meta.roles)) {
+                    next();
+                }else{
+                    next('/404');
+                }
             }
 
-            if (currentRoles.includes(to.meta.roles)) {
-                next();
-            }else{
-                next('/404');
-            }
+
 
         }
 

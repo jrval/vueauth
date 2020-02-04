@@ -3695,6 +3695,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PermissionsTable",
   data: function data() {
@@ -3710,7 +3711,8 @@ __webpack_require__.r(__webpack_exports__);
       sortClassActive: {
         'activeDesc': false,
         'activeAsc': true
-      }
+      },
+      meta: {}
     };
   },
   created: function created() {
@@ -3725,19 +3727,25 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://176.16.16.100:8001/" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
           _this.permissions = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://176.16.16.100:8001/" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
         axios.get(_uri).then(function (response) {
           _this.permissions = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       }
     },
@@ -4113,6 +4121,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "RolesTable",
   data: function data() {
@@ -4128,7 +4137,8 @@ __webpack_require__.r(__webpack_exports__);
       sortClassActive: {
         'activeDesc': false,
         'activeAsc': true
-      }
+      },
+      meta: {}
     };
   },
   created: function created() {
@@ -4143,20 +4153,25 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://176.16.16.100:8001/" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
           _this.roles = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://176.16.16.100:8001/" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
         axios.get(_uri).then(function (response) {
-          console.log(response);
           _this.roles = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       }
     },
@@ -4635,6 +4650,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UsersTable",
   data: function data() {
@@ -4650,7 +4667,8 @@ __webpack_require__.r(__webpack_exports__);
       sortClassActive: {
         'activeDesc': false,
         'activeAsc': true
-      }
+      },
+      meta: {}
     };
   },
   created: function created() {
@@ -4665,19 +4683,25 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test:85" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://176.16.16.100:8001/" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
           _this.users = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test:85" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://176.16.16.100:8001/" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
         axios.get(_uri).then(function (response) {
           _this.users = response.data;
+          _this.meta.total = response.data.meta.total;
+          _this.meta.from = response.data.meta.from;
+          _this.meta.to = response.data.meta.to;
         });
       }
     },
@@ -30183,7 +30207,20 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("p", { staticClass: "float-left" }, [
+            _vm._v(
+              "Showing " +
+                _vm._s(_vm.meta.from) +
+                " to " +
+                _vm._s(_vm.meta.to) +
+                " of " +
+                _vm._s(_vm.meta.total) +
+                " entries"
+            )
+          ]),
+          _vm._v(" "),
           _c("pagination", {
+            staticClass: "float-right",
             attrs: { data: _vm.permissions, limit: 5 },
             on: { "pagination-change-page": _vm.index }
           })
@@ -30861,6 +30898,18 @@ var render = function() {
               )
             ]
           ),
+          _vm._v(" "),
+          _c("p", { staticClass: "float-left" }, [
+            _vm._v(
+              "Showing " +
+                _vm._s(_vm.meta.from) +
+                " to " +
+                _vm._s(_vm.meta.to) +
+                " of " +
+                _vm._s(_vm.meta.total) +
+                " entries"
+            )
+          ]),
           _vm._v(" "),
           _c("pagination", {
             attrs: { data: _vm.roles, limit: 5 },
@@ -31846,7 +31895,20 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("p", { staticClass: "float-left" }, [
+            _vm._v(
+              "Showing " +
+                _vm._s(_vm.meta.from) +
+                " to " +
+                _vm._s(_vm.meta.to) +
+                " of " +
+                _vm._s(_vm.meta.total) +
+                " entries"
+            )
+          ]),
+          _vm._v(" "),
           _c("pagination", {
+            staticClass: "float-right",
             attrs: { data: _vm.users, limit: 5 },
             on: { "pagination-change-page": _vm.index }
           })
@@ -53158,7 +53220,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = "http://vueauth.test:85";
+window.axios.defaults.baseURL = "http://176.16.16.100:8001/";
 
 /***/ }),
 
@@ -55239,12 +55301,12 @@ function initialize(store, router) {
       // next();
       if (!to.meta.roles) {
         return next();
-      }
-
-      if (currentRoles.includes(to.meta.roles)) {
-        next();
       } else {
-        next('/404');
+        if (currentRoles.includes(to.meta.roles)) {
+          next();
+        } else {
+          next('/404');
+        }
       }
     }
   });
