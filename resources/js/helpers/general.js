@@ -66,6 +66,22 @@ export function initialize(store, router) {
             })
         }
 
+        if (status === 403) {
+            Vue.swal.fire({
+                icon: 'danger',
+                title: 'Error 403 Unauthorized',
+                text: 'You don\'t have permission to proceed this action.',
+                reverseButtons: true,
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.value) {
+                    router.go(-1);
+                }
+
+            })
+        }
+
 
         return Promise.reject(error)
     })

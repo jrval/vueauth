@@ -52,6 +52,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('user_create')) {
+            return abort(403);
+        }
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -79,6 +82,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('user_view')) {
+            return abort(403);
+        }
         return new UserResource(User::with('roles')->find($id));
     }
 
@@ -90,6 +96,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if (! Gate::allows('user_edit')) {
+            return abort(403);
+        }
         return new UserResource(User::with('roles')->find($id));
     }
 
@@ -103,6 +112,9 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
+        if (! Gate::allows('user_edit')) {
+            return abort(403);
+        }
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
@@ -131,6 +143,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if (! Gate::allows('user_delete')) {
+            return abort(403);
+        }
+
         $user = User::findorfail($id);
         $user->delete();
 

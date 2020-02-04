@@ -9,9 +9,11 @@
                     <div id="content">
                         <TopBar></TopBar>
                         <div class="container-fluid">
-                            <transition name="fade">
+
+                            <vue-page-transition name="fade-in-right">
                                 <router-view></router-view>
-                            </transition>
+                            </vue-page-transition>
+
                         </div>
                     </div>
 
@@ -20,9 +22,10 @@
             </div>
         </template>
         <template v-else>
-            <transition name="fade">
-             <Login></Login>
-            </transition>
+            <vue-page-transition name="fade-in-right">
+                <Login></Login>
+            </vue-page-transition>
+
         </template>
     </div>
 </template>
@@ -36,16 +39,12 @@
 
     import Login from "./authentication/Login";
 
-    import Header from "./layout/Header";
-
-
     export default {
         name: "App",
         components: {
             Footer,
             TopBar,
             Sidebar,
-            Header,
             Login
         },
         computed: {

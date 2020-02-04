@@ -1,9 +1,9 @@
 <template>
     <div>
         <h1 class="h3 mb-2 text-gray-800">{{title || 'Roles Data'}}</h1>
-        <transition name="fade">
+        <vue-page-transition name="fade-in-right">
             <router-view></router-view>
-        </transition>
+        </vue-page-transition>
 
 
     </div>

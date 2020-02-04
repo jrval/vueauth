@@ -3,6 +3,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import VuePageTransition from 'vue-page-transition'
 import Permissions from './mixins/Permissions';
 import Roles from './mixins/Roles';
 import {routes} from './routes';
@@ -21,6 +22,7 @@ const options = {
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VuePageTransition)
 Vue.mixin(Permissions);
 Vue.mixin(Roles);
 Vue.use(require('vue-moment'));

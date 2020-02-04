@@ -8,8 +8,8 @@ export default {
         isLoggedIn: !!user,
         loading:false,
         auth_error:null,
-        auth_permissions:user.permissions,
-        auth_roles:user.roles
+        auth_permissions:user,
+        auth_roles:user
     },
     getters:{
         isLoading(state){
@@ -55,6 +55,8 @@ export default {
             localStorage.removeItem("user");
             state.isLoggedIn = false;
             state.currentUser = null;
+            state.auth_permissions = null;
+            state.auth_roles = null;
         },
 
     },

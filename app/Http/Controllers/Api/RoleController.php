@@ -7,6 +7,7 @@ use App\Http\Resources\RoleCollection;
 use App\Http\Resources\RoleResource;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -18,6 +19,10 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        if (! Gate::allows('role_view')) {
+            return abort(403);
+        }
+
         $searchValue = $request->search;
         $orderBy = $request->sortby;
         $orderByDir = $request->sortdir;
@@ -48,6 +53,10 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('role_create')) {
+            return abort(403);
+        }
+
         $request->validate([
             'name' => 'required|unique:roles,name|regex:/(^[A-Za-z0-9-_]+$)+/',
             'permissions'=>'required'
@@ -71,6 +80,10 @@ class RoleController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('role_view')) {
+            return abort(403);
+        }
+
         return new RoleResource(Role::with('permissions')->find($id));
     }
 
@@ -82,6 +95,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        if (! Gate::allows('role_edit')) {
+            return abort(403);
+        }
+
         return new RoleResource(Role::with('permissions')->find($id));
     }
 
@@ -94,6 +111,10 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (! Gate::allows('role_edit')) {
+            return abort(403);
+        }
+
         $request->validate([
             'name' => 'required|unique:roles,name,'.$request->role.'|regex:/(^[A-Za-z0-9-_]+$)+/',
             'permissions'=>'required'
@@ -120,6 +141,11 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        if (! Gate::allows('role_delete')) {
+            return abort(403);
+        }
+
+
         $role = \Spatie\Permission\Models\Role::findOrFail($id);
         $role->delete();
 

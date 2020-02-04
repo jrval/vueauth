@@ -7,6 +7,7 @@ use App\Http\Resources\PermissionCollection;
 use App\Http\Resources\PermissionResource;
 use Illuminate\Http\Request;
 use App\Permission;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
@@ -18,6 +19,9 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
+//        if (! Gate::allows('permission_view')) {
+//            return abort(403);
+//        }
         $searchValue = $request->search;
         $orderBy = $request->sortby;
         $orderByDir = $request->sortdir;
@@ -48,6 +52,10 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+        if (! Gate::allows('permission_create')) {
+            return abort(403);
+        }
+
         $request->validate([
             'name' => 'required|unique:permissions,name|regex:/(^[A-Za-z0-9-_]+$)+/',
         ]);
@@ -68,6 +76,10 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
+        if (! Gate::allows('permission_view')) {
+            return abort(403);
+        }
+
         return new PermissionResource(Permission::find($id));
     }
 
@@ -79,6 +91,9 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
+        if (! Gate::allows('permission_edit')) {
+            return abort(403);
+        }
         return new PermissionResource(Permission::find($id));
     }
 
@@ -91,6 +106,9 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (! Gate::allows('permission_edit')) {
+            return abort(403);
+        }
         $request->validate([
             'name' => 'required|unique:permissions,name,'.$request->permission.'|regex:/(^[A-Za-z0-9-_]+$)+/',
         ]);
@@ -115,6 +133,10 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
+
+        if (! Gate::allows('permission_delete')) {
+            return abort(403);
+        }
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
