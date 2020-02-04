@@ -42,7 +42,6 @@
         },
         methods:{
             addRole(){
-                console.log(this.role);
                 axios.post('/api/roles', this.role)
                     .then((response) => {
                         this.$swal.fire({
@@ -56,7 +55,6 @@
                     this.role.name  = '';
                     if (error.response.status === 422) {
                         this.errors = error.response.data.errors;
-                        console.log(this.errors)
                     }
                 });
             },

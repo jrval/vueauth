@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 class="h3 mb-2 text-gray-800">{{title || 'Permissions Data'}}</h1>
-        <transition name="fade">
-            <router-view></router-view>
-        </transition>
+    <h1 class="h3 mb-2 text-gray-800">{{title || 'Permissions Data'}}</h1>
+    <transition name="fade">
+        <router-view></router-view>
+    </transition>
 
-    </div>
+</div>
 </template>
 
 <script>

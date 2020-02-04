@@ -24,6 +24,13 @@ import RoleCreate from "./components/role/Create";
 import RoleView from "./components/role/View";
 import RoleEdit from "./components/role/Edit";
 
+
+/*passport*/
+import Passport from "./components/passport/Passport";
+
+/*errors*/
+import Error_404 from "./components/errors/404"
+
 export const routes = [
     {
         path: '/',
@@ -54,16 +61,15 @@ export const routes = [
     {
         path: '/users',
         component: Users,
-        meta: {
-            title: 'Users',
-            requiresAuth: true
-        },children: [
+        children: [
             {
                 path: '/',
                 component: UsersTable,
                 name: 'users-table',
                 meta: {
                     title: 'Users',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -72,6 +78,8 @@ export const routes = [
                 name: 'users-create',
                 meta: {
                     title: 'Create User',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -80,6 +88,8 @@ export const routes = [
                 name: 'users-view',
                 meta: {
                     title: 'View User',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -88,6 +98,8 @@ export const routes = [
                 name: 'users-edit',
                 meta: {
                     title: 'Edit User',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             }
         ]
@@ -95,16 +107,15 @@ export const routes = [
     {
         path: '/permissions',
         component: Permission,
-        meta: {
-            title: 'Permissions',
-            requiresAuth: true
-        },children: [
+        children: [
             {
                 path: '/',
                 component: PermissionsTable,
                 name: 'permission-table',
                 meta: {
                     title: 'Permissions',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -113,6 +124,8 @@ export const routes = [
                 name: 'permission-create',
                 meta: {
                     title: 'Create Permission',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -121,6 +134,8 @@ export const routes = [
                 name: 'permission-view',
                 meta: {
                     title: 'View Permission',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -129,6 +144,8 @@ export const routes = [
                 name: 'permission-edit',
                 meta: {
                     title: 'Edit Permission',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             }
         ]
@@ -136,17 +153,15 @@ export const routes = [
     {
         path: '/roles',
         component: Role,
-        meta: {
-            title: 'Roles',
-            requiresAuth: true,
-
-        },children: [
+        children: [
             {
                 path: '/',
                 component: RolesTable,
                 name: 'role-table',
                 meta: {
                     title: 'Roles',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -155,6 +170,8 @@ export const routes = [
                 name: 'role-create',
                 meta: {
                     title: 'Create Role',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -163,6 +180,8 @@ export const routes = [
                 name: 'role-view',
                 meta: {
                     title: 'View Role',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             },
             {
@@ -171,8 +190,28 @@ export const routes = [
                 name: 'role-edit',
                 meta: {
                     title: 'Edit Role',
+                    roles: ['administrator'],
+                    requiresAuth: true,
                 }
             }
         ]
     },
+    {
+        path: '/passport',
+        component: Passport,
+        meta: {
+            title: 'Passport',
+            requiresAuth: true,
+            roles: ['administrator'],
+        }
+    },
+    {
+        path: "*",
+        name: 'error_404',
+        component: Error_404,
+        meta: {
+            title: 'Error 404',
+        }
+    }
+
 ];

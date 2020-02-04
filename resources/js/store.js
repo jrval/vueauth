@@ -8,8 +8,8 @@ export default {
         isLoggedIn: !!user,
         loading:false,
         auth_error:null,
-        auth_permissions:[],
-        auth_roles:[]
+        auth_permissions:user.permissions,
+        auth_roles:user.roles
     },
     getters:{
         isLoading(state){
@@ -37,13 +37,15 @@ export default {
             state.auth_error=null;
         },
         loginSuccess(state,payload){
-            console.log('loginSuccess');
             state.auth_error = null;
             state.isLoggedIn = true;
             state.loading = false;
-            state.currentUser = Object.assign({},payload.user,{token:payload.access_token});
+            state.currentUser = Object.assign({},payload.user,{token:payload.access_token},{roles:payload.roles},{permissions:payload.permissions});
+            state.auth_permissions = Object.assign({permissions:payload.permissions});
+            state.auth_roles = Object.assign({roles:payload.roles});
 
             localStorage.setItem("user",JSON.stringify(state.currentUser));
+
         },
         loginFailed(state,payload){
             state.loading = false;
@@ -54,27 +56,13 @@ export default {
             state.isLoggedIn = false;
             state.currentUser = null;
         },
-        updateAuthPermissions(state, payload) {
-            state.auth_permissions = payload;
-        },
-        updateAuthRoles(state, payload) {
-            state.auth_roles = payload;
-        },
+
     },
 
     actions:{
         login(context){
-            console.log(context);
+
             context.commit('login');
         },
-        getUserAuth(context) {
-            axios.get('/api/auth-user')
-                .then((response) => {
-                    console.log(context)
-                     context.commit('updateAuthPermissions', JSON.stringify(response.data.permissions));
-                     context.commit('updateAuthRoles', response.data.roles);
-                })
-        }
-
     }
 }

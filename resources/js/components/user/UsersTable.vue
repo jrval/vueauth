@@ -127,7 +127,7 @@
                     axios.get(uri)
                         .then(response => {
                             this.users = response.data;
-                            console.log(this.users);
+
                         });
 
 
@@ -138,7 +138,7 @@
                     axios.get(uri)
                         .then(response => {
                             this.users = response.data;
-                            console.log(this.users);
+
                         });
 
                 }

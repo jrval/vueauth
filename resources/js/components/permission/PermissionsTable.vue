@@ -110,14 +110,12 @@
                             this.permissions = response.data;
                         });
 
-                    console.log(uri);
                 }else{
                     let uri =  process.env.MIX_APP_URL+'/api/permissions?page=' + page+'&search='+this.search+'&sortby='+this.currentSort+'&sortdir='+this.currentSortDir+'&currentpage='+this.currentPage;
                     this.uri = uri;
                     this.page = page;
                     axios.get(uri)
                         .then(response => {
-                            console.log(response);
                             this.permissions = response.data;
                         });
                 }

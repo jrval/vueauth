@@ -7,15 +7,12 @@ import Permissions from './mixins/Permissions';
 import Roles from './mixins/Roles';
 import {routes} from './routes';
 import StoreData from './store';
-/*import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs';*/
 import {initialize} from './helpers/general';
 
 
 import App from './components/App'
 import VueSweetAlert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-
-
 
 const options = {
     confirmButtonColor: '#41b882',
@@ -26,7 +23,6 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.mixin(Permissions);
 Vue.mixin(Roles);
-/*Vue.use(LaravelPermissionToVueJS);*/
 Vue.use(require('vue-moment'));
 Vue.use(VueSweetAlert2,options);
 Vue.component('pagination', require('laravel-vue-pagination'));

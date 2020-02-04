@@ -117,7 +117,6 @@
                             this.roles = response.data;
                         });
 
-                    console.log(uri);
                 }else{
                     let uri =  process.env.MIX_APP_URL+'/api/roles?page=' + page+'&search='+this.search+'&sortby='+this.currentSort+'&sortdir='+this.currentSortDir+'&currentpage='+this.currentPage;
                     this.uri = uri;

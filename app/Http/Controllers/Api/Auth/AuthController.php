@@ -50,6 +50,8 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
             $data = collect($data);
             $data->put('user', $user);
+            $data->put('permissions', $user->getPermissionsViaRoles()->pluck('name'));
+            $data->put('roles', $user->getRoleNames());
 
             return response()->json($data);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {

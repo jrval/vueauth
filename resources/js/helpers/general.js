@@ -4,15 +4,30 @@ import Vue from 'vue';
 export function initialize(store, router) {
     router.beforeEach((to, from, next) => {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+        const requiredRole = to.matched.some(record => record.meta.roles);
         const currentUser = store.state.currentUser;
-
-        if(requiresAuth && !currentUser) {
+        const currentPermissions = store.state.auth_permissions;
+        const currentRoles = JSON.stringify(store.state.auth_roles);
+        if (requiresAuth && !currentUser && !currentPermissions && !currentRoles) {
             next('/login');
-        } else if(to.path === '/login' && currentUser) {
+        } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
+
             next('/');
         } else {
-            next();
+            // console.log(to);
+            // next();
+            if (!to.meta.roles) {
+                return next()
+            }
+
+            if (currentRoles.includes(to.meta.roles)) {
+                next();
+            }else{
+                next('/404');
+            }
+
         }
+
     });
 
 
@@ -21,7 +36,7 @@ export function initialize(store, router) {
     }
 
     axios.interceptors.response.use(response => response, error => {
-        const { status } = error.response;
+        const {status} = error.response;
 
         if (status >= 500) {
             Vue.swal.fire({
@@ -50,6 +65,7 @@ export function initialize(store, router) {
 
             })
         }
+
 
         return Promise.reject(error)
     })

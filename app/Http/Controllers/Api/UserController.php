@@ -7,6 +7,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -18,6 +19,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
+        if (! Gate::allows('user_view')) {
+            return abort(403);
+        }
         $searchValue = $request->search;
         $orderBy = $request->sortby;
         $orderByDir = $request->sortdir;

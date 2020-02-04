@@ -76,17 +76,15 @@
                         this.user.password_confirmation='';
                     if (error.response.status === 422) {
                         this.errors = error.response.data.errors;
-                        console.log(this.errors)
+
                     }
                 });
             },
             getRoles(){
-
                 axios.get('/api/roles?sortby=name&sortdir=asc')
                     .then((response) => {
                         this.roles = response.data;
                     }).catch((error) => {
-
                 });
             }
         }

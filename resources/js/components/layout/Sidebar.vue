@@ -27,6 +27,7 @@
         <div class="sidebar-heading">
             Admin
         </div>
+        <template v-if="$is('administrator')">
         <router-link tag="li" :to="{ name: 'users-table' }" class="nav-item"  v-if="currentUser">
             <a class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -39,12 +40,12 @@
                 <span>Permissions</span></a>
         </router-link>
 
-        <router-link tag="li" :to="{ name: 'role-table' }" class="nav-item"  v-if="currentUser | $is('supervisor') " >
+        <router-link tag="li" :to="{ name: 'role-table' }" class="nav-item"  v-if="currentUser" >
             <a class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Roles</span></a>
         </router-link>
-
+        </template>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">

@@ -76,6 +76,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
+
                         this.$router.push({name:'users-table'});
                     }).catch((error) => {
                     this.user.password  = '';
