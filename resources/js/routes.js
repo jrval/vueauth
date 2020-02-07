@@ -38,7 +38,7 @@ export const routes = [
         component: Home,
         meta: {
             title: 'Home',
-            requiresAuth: true
+            requiresAuth: true,
         }
     },
     {

@@ -19,9 +19,9 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-//        if (! Gate::allows('permission_view')) {
-//            return abort(403);
-//        }
+        if (! Gate::allows('permission_view')) {
+            return abort(403);
+        }
         $searchValue = $request->search;
         $orderBy = $request->sortby;
         $orderByDir = $request->sortdir;

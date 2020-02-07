@@ -6,24 +6,40 @@ export function initialize(store, router) {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
         const requiredRole = to.matched.some(record => record.meta.roles);
         const currentUser = store.state.currentUser;
-        const currentPermissions = store.state.auth_permissions;
+        const currentPermissions = JSON.stringify(store.state.auth_permissions);
         const currentRoles = JSON.stringify(store.state.auth_roles);
         if (requiresAuth && !currentUser && !currentPermissions && !currentRoles) {
             next('/login');
         } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
             next('/');
         } else {
-            // console.log(to);
+
             // next();
-            if (!to.meta.roles) {
-                return next()
+            if (currentRoles.includes(to.meta.roles)) {
+                console.log('wew');
+                next();
             }else{
-                if (currentRoles.includes(to.meta.roles)) {
-                    next();
+                console.log('rejected');
+                if (!to.meta.roles) {
+                    console.log('allowed');
+                    return next()
                 }else{
+                    console.log('404');
                     next('/404');
                 }
+
             }
+
+            //
+            // if (!to.meta.roles) {
+            //     return next()
+            // }else{
+            //     if (currentRoles.includes(to.meta.roles)) {
+            //         next();
+            //     }else{
+            //         next('/404');
+            //     }
+            // }
 
 
 

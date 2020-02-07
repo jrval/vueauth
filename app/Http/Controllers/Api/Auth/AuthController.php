@@ -12,13 +12,9 @@ class AuthController extends Controller
 {
 
     public function authenticatedUser(){
-
-
         return response()->json(['permissions'=> Auth::user()->allPermissions,
             'roles'=>Auth::user()->getRoleNames()
             ]);
-
-
     }
 
     public function login(Request $request)

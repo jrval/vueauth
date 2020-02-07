@@ -24,3 +24,21 @@ export function getLocalUser() {
 
     return JSON.parse(userStr);
 }
+
+export function getLocalPermissions() {
+    const permissionsStr = localStorage.getItem("permissions");
+    if(!permissionsStr){
+        return null;
+    }
+
+    return JSON.parse(permissionsStr);
+}
+
+export function getLocalRoles() {
+    const rolesStr = localStorage.getItem("roles");
+    if(!rolesStr){
+        return null;
+    }
+
+    return JSON.parse(rolesStr);
+}

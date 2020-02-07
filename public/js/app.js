@@ -3727,7 +3727,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test:85/" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -3737,7 +3737,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test:85/" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -4153,7 +4153,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test:85/" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -4163,7 +4163,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test:85/" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -4683,7 +4683,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       if (this.isSearch) {
-        var uri = "http://vueauth.test" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var uri = "http://vueauth.test:85/" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
         this.uri = uri;
         this.page = page;
         axios.get(uri).then(function (response) {
@@ -4693,7 +4693,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.meta.to = response.data.meta.to;
         });
       } else {
-        var _uri = "http://vueauth.test" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+        var _uri = "http://vueauth.test:85/" + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
 
         this.uri = _uri;
         this.page = page;
@@ -53220,7 +53220,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = "http://vueauth.test";
+window.axios.defaults.baseURL = "http://vueauth.test:85/";
 
 /***/ }),
 
@@ -55235,13 +55235,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************!*\
   !*** ./resources/js/helpers/auth.js ***!
   \**************************************/
-/*! exports provided: login, getLocalUser */
+/*! exports provided: login, getLocalUser, getLocalPermissions, getLocalRoles */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalUser", function() { return getLocalUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalPermissions", function() { return getLocalPermissions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalRoles", function() { return getLocalRoles; });
 /* harmony import */ var _general__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./general */ "./resources/js/helpers/general.js");
 
 function login(credentials) {
@@ -55262,6 +55264,24 @@ function getLocalUser() {
   }
 
   return JSON.parse(userStr);
+}
+function getLocalPermissions() {
+  var permissionsStr = localStorage.getItem("permissions");
+
+  if (!permissionsStr) {
+    return null;
+  }
+
+  return JSON.parse(permissionsStr);
+}
+function getLocalRoles() {
+  var rolesStr = localStorage.getItem("roles");
+
+  if (!rolesStr) {
+    return null;
+  }
+
+  return JSON.parse(rolesStr);
 }
 
 /***/ }),
@@ -55289,7 +55309,7 @@ function initialize(store, router) {
       return record.meta.roles;
     });
     var currentUser = store.state.currentUser;
-    var currentPermissions = store.state.auth_permissions;
+    var currentPermissions = JSON.stringify(store.state.auth_permissions);
     var currentRoles = JSON.stringify(store.state.auth_roles);
 
     if (requiresAuth && !currentUser && !currentPermissions && !currentRoles) {
@@ -55297,17 +55317,31 @@ function initialize(store, router) {
     } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
       next('/');
     } else {
-      // console.log(to);
       // next();
-      if (!to.meta.roles) {
-        return next();
+      if (currentRoles.includes(to.meta.roles)) {
+        console.log('wew');
+        next();
       } else {
-        if (currentRoles.includes(to.meta.roles)) {
-          next();
+        console.log('rejected');
+
+        if (!to.meta.roles) {
+          console.log('allowed');
+          return next();
         } else {
+          console.log('404');
           next('/404');
         }
-      }
+      } //
+      // if (!to.meta.roles) {
+      //     return next()
+      // }else{
+      //     if (currentRoles.includes(to.meta.roles)) {
+      //         next();
+      //     }else{
+      //         next('/404');
+      //     }
+      // }
+
     }
   });
 
@@ -55705,14 +55739,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/auth */ "./resources/js/helpers/auth.js");
 
 var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
+var permissions = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalPermissions"])();
+var roles = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalRoles"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     currentUser: user,
     isLoggedIn: !!user,
     loading: false,
     auth_error: null,
-    auth_permissions: user,
-    auth_roles: user
+    auth_permissions: permissions,
+    auth_roles: roles
   },
   getters: {
     isLoading: function isLoading(state) {
@@ -55745,18 +55781,12 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
       state.loading = false;
       state.currentUser = Object.assign({}, payload.user, {
         token: payload.access_token
-      }, {
-        roles: payload.roles
-      }, {
-        permissions: payload.permissions
       });
-      state.auth_permissions = Object.assign({
-        permissions: payload.permissions
-      });
-      state.auth_roles = Object.assign({
-        roles: payload.roles
-      });
+      state.auth_permissions = Object.assign(payload.permissions);
+      state.auth_roles = Object.assign(payload.roles);
       localStorage.setItem("user", JSON.stringify(state.currentUser));
+      localStorage.setItem("permissions", JSON.stringify(state.auth_permissions));
+      localStorage.setItem("roles", JSON.stringify(state.auth_roles));
     },
     loginFailed: function loginFailed(state, payload) {
       state.loading = false;
@@ -55797,8 +55827,8 @@ var user = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalUser"])();
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\vueauth\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

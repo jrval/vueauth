@@ -1,6 +1,8 @@
-import {getLocalUser} from "./helpers/auth";
+import {getLocalUser,getLocalPermissions,getLocalRoles} from "./helpers/auth";
 
 const user = getLocalUser();
+const permissions = getLocalPermissions();
+const roles = getLocalRoles();
 
 export default {
     state:{
@@ -8,8 +10,8 @@ export default {
         isLoggedIn: !!user,
         loading:false,
         auth_error:null,
-        auth_permissions:user,
-        auth_roles:user
+        auth_permissions:permissions,
+        auth_roles:roles
     },
     getters:{
         isLoading(state){
@@ -40,12 +42,12 @@ export default {
             state.auth_error = null;
             state.isLoggedIn = true;
             state.loading = false;
-            state.currentUser = Object.assign({},payload.user,{token:payload.access_token},{roles:payload.roles},{permissions:payload.permissions});
-            state.auth_permissions = Object.assign({permissions:payload.permissions});
-            state.auth_roles = Object.assign({roles:payload.roles});
-
+            state.currentUser = Object.assign({},payload.user,{token:payload.access_token});
+            state.auth_permissions = Object.assign(payload.permissions);
+            state.auth_roles = Object.assign(payload.roles);
             localStorage.setItem("user",JSON.stringify(state.currentUser));
-
+            localStorage.setItem("permissions",JSON.stringify(state.auth_permissions));
+            localStorage.setItem("roles",JSON.stringify(state.auth_roles));
         },
         loginFailed(state,payload){
             state.loading = false;
