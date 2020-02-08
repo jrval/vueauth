@@ -1,4 +1,7 @@
 import {getLocalUser,getLocalPermissions,getLocalRoles} from "./helpers/auth";
+import Vue from 'vue'
+
+
 
 const user = getLocalUser();
 const permissions = getLocalPermissions();
@@ -27,10 +30,10 @@ export default {
             return state.auth_error;
         },
         authPermissions(state) {
-            return state.auth_permissions;
+            return  Vue.CryptoJS.AES.decrypt( state.auth_permissions, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8)
         },
         authRoles(state) {
-            return state.auth_roles;
+            return Vue.CryptoJS.AES.decrypt( state.auth_roles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
         }
     },
     mutations:{
@@ -43,11 +46,12 @@ export default {
             state.isLoggedIn = true;
             state.loading = false;
             state.currentUser = Object.assign({},payload.user,{token:payload.access_token});
-            state.auth_permissions = Object.assign(payload.permissions);
-            state.auth_roles = Object.assign(payload.roles);
+            state.auth_permissions = Vue.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.permissions)), process.env.MIX_CRYPTO_JS_PASSPHRASE).toString();
+            state.auth_roles = Vue.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.roles)), process.env.MIX_CRYPTO_JS_PASSPHRASE).toString();
+
             localStorage.setItem("user",JSON.stringify(state.currentUser));
-            localStorage.setItem("permissions",JSON.stringify(state.auth_permissions));
-            localStorage.setItem("roles",JSON.stringify(state.auth_roles));
+            $cookies.set("permissions",state.auth_permissions);
+            $cookies.set("roles",state.auth_roles);
         },
         loginFailed(state,payload){
             state.loading = false;
@@ -55,6 +59,8 @@ export default {
         },
         logout(state){
             localStorage.removeItem("user");
+            $cookies.remove("permissions");
+            $cookies.remove("roles");
             state.isLoggedIn = false;
             state.currentUser = null;
             state.auth_permissions = null;

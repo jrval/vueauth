@@ -10,6 +10,8 @@
         },
         methods: {
             $is(currentUser) {
+                console.log(this.currentRole);
+                console.log(currentUser);
                 return JSON.stringify(this.currentRole).includes(currentUser);
             },
         },

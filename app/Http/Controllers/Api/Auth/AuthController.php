@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +44,12 @@ class AuthController extends Controller
 
             $token = $response->getBody();
             $data = json_decode($token, true);
-            $user = User::where('email', $request->email)->first();
+            $user =  new UserResource(User::select('name','email')->where('email', $request->email)->first());
+            $user_all_details =  new UserResource(User::where('email', $request->email)->first());
             $data = collect($data);
             $data->put('user', $user);
-            $data->put('permissions', $user->getPermissionsViaRoles()->pluck('name'));
-            $data->put('roles', $user->getRoleNames());
+            $data->put('permissions', $user_all_details->getPermissionsViaRoles()->pluck('name'));
+            $data->put('roles', $user_all_details->getRoleNames());
 
             return response()->json($data);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {

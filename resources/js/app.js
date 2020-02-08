@@ -3,13 +3,14 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import VueCryptojs from 'vue-cryptojs'
+import VueCookies from 'vue-cookies'
 import VuePageTransition from 'vue-page-transition'
 import Permissions from './mixins/Permissions';
 import Roles from './mixins/Roles';
 import {routes} from './routes';
 import StoreData from './store';
 import {initialize} from './helpers/general';
-
 
 import App from './components/App'
 import VueSweetAlert2 from 'vue-sweetalert2';
@@ -22,7 +23,9 @@ const options = {
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
-Vue.use(VuePageTransition)
+Vue.use(VuePageTransition);
+Vue.use(VueCryptojs);
+Vue.use(VueCookies);
 Vue.mixin(Permissions);
 Vue.mixin(Roles);
 Vue.use(require('vue-moment'));

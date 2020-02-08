@@ -4,42 +4,47 @@ import Vue from 'vue';
 export function initialize(store, router) {
     router.beforeEach((to, from, next) => {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-        const requiredRole = to.matched.some(record => record.meta.roles);
         const currentUser = store.state.currentUser;
-        const currentPermissions = JSON.stringify(store.state.auth_permissions);
-        const currentRoles = JSON.stringify(store.state.auth_roles);
+        const currentPermissions = store.state.auth_permissions;
+        const currentRoles = store.state.auth_roles;
+        //const currentRoles = JSON.stringify(store.state.auth_roles);
         if (requiresAuth && !currentUser && !currentPermissions && !currentRoles) {
             next('/login');
         } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
             next('/');
         } else {
-
-            // next();
-            if (currentRoles.includes(to.meta.roles)) {
-                console.log('wew');
-                next();
-            }else{
-                console.log('rejected');
-                if (!to.meta.roles) {
-                    console.log('allowed');
-                    return next()
-                }else{
-                    console.log('404');
-                    next('/404');
-                }
-
+            let roles = '';
+            if(currentRoles){
+                roles = Vue.CryptoJS.AES.decrypt(currentRoles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
+                console.log(roles);
             }
-
-            //
-            // if (!to.meta.roles) {
-            //     return next()
+            // next();
+            // if (roles.includes(to.meta.roles)) {
+            //     next();
             // }else{
-            //     if (currentRoles.includes(to.meta.roles)) {
-            //         next();
+            //     console.log('rejected');
+            //     if (!to.meta.roles) {
+            //         console.log('allowed');
+            //         return next()
             //     }else{
+            //         console.log('404');
             //         next('/404');
             //     }
+            //
             // }
+
+            //
+            if (!to.meta.roles) {
+                return next()
+            }else{
+                if (JSON.stringify(roles).includes(to.meta.roles)) {
+                    console.log(to.meta.roles);
+                    next();
+                }else{
+                    console.log(to.meta.roles);
+                    next('/404');
+                }
+            }
 
 
 

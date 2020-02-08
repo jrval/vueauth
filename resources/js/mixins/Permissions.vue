@@ -9,6 +9,8 @@
         },
         methods: {
             $can(currentUser) {
+                console.log(this.currentPermission);
+                console.log(currentUser);
                 return JSON.stringify(this.currentPermission).includes(currentUser);
             },
         },

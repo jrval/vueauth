@@ -68,7 +68,7 @@ export const routes = [
                 name: 'users-table',
                 meta: {
                     title: 'Users',
-                    roles: ['administrator'],
+                    roles: ['administrator','supervisor'],
                     requiresAuth: true,
                 }
             },
