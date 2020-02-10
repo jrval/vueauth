@@ -68,7 +68,7 @@ export const routes = [
                 name: 'users-table',
                 meta: {
                     title: 'Users',
-                    roles: ['administrator','supervisor'],
+                    roles: ['administrator'],
                     requiresAuth: true,
                 }
             },
@@ -206,12 +206,13 @@ export const routes = [
         }
     },
     {
-        path: "*",
+        path: '/404',
         name: 'error_404',
         component: Error_404,
         meta: {
             title: 'Error 404',
         }
-    }
+    },
+    {path: '*', redirect: '/404'},
 
 ];

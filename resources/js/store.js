@@ -1,8 +1,6 @@
 import {getLocalUser,getLocalPermissions,getLocalRoles} from "./helpers/auth";
 import Vue from 'vue'
 
-
-
 const user = getLocalUser();
 const permissions = getLocalPermissions();
 const roles = getLocalRoles();
@@ -71,7 +69,6 @@ export default {
 
     actions:{
         login(context){
-
             context.commit('login');
         },
     }

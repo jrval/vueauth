@@ -27,7 +27,7 @@
         <div class="sidebar-heading">
             Admin
         </div>
-        <template v-if="$is('administrator') | $is('supervisor')">
+        <template v-if="$is('administrator')">
         <router-link tag="li" :to="{ name: 'users-table' }" class="nav-item"  v-if="currentUser">
             <a class="nav-link">
                 <i class="fas fa-fw fa-tachometer-alt"></i>

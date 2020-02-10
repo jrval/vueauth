@@ -16,36 +16,17 @@ export function initialize(store, router) {
             let roles = '';
             if(currentRoles){
                 roles = Vue.CryptoJS.AES.decrypt(currentRoles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
-                console.log(roles);
             }
-            // next();
-            // if (roles.includes(to.meta.roles)) {
-            //     next();
-            // }else{
-            //     console.log('rejected');
-            //     if (!to.meta.roles) {
-            //         console.log('allowed');
-            //         return next()
-            //     }else{
-            //         console.log('404');
-            //         next('/404');
-            //     }
-            //
-            // }
 
-            //
             if (!to.meta.roles) {
                 return next()
             }else{
-                if (JSON.stringify(roles).includes(to.meta.roles)) {
-                    console.log(to.meta.roles);
+                if (JSON.parse(roles).some(r=>to.meta.roles.includes(r))) {
                     next();
                 }else{
-                    console.log(to.meta.roles);
                     next('/404');
                 }
             }
-
 
 
         }

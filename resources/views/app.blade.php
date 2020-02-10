@@ -24,7 +24,7 @@
 
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
 </head>
 
@@ -40,7 +40,7 @@
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
 
 
 </body>
