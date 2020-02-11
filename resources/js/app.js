@@ -11,7 +11,7 @@ import Roles from './mixins/Roles';
 import {routes} from './routes';
 import StoreData from './store';
 import {initialize} from './helpers/general';
-
+import NProgress from 'vue-nprogress';
 import App from './components/App'
 import VueSweetAlert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -30,9 +30,10 @@ Vue.mixin(Permissions);
 Vue.mixin(Roles);
 Vue.use(require('vue-moment'));
 Vue.use(VueSweetAlert2,options);
+Vue.use(NProgress);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
-
+const nprogress = new NProgress({ parent: 'body' });
 const store = new Vuex.Store(StoreData);
 
 const router = new VueRouter({
@@ -42,12 +43,13 @@ const router = new VueRouter({
     linkExactActiveClass: "active",
 });
 
-initialize(store, router);
+initialize(store, router,nprogress);
 
 
 const app = new Vue({
     el: '#app',
     render:h =>h(App),
+    nprogress,
     store,
     router,
     components:{

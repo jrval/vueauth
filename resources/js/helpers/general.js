@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
-
-export function initialize(store, router) {
+export function initialize(store, router,nprogress) {
     router.beforeEach((to, from, next) => {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
         const currentUser = store.state.currentUser;
@@ -33,12 +32,34 @@ export function initialize(store, router) {
 
     });
 
+    router.beforeResolve((to, from, next) => {
+        // If this isn't an initial page load.
+        if (to.name) {
+            // Start the route progress bar.
+            nprogress.start()
+        }
+        next()
+    });
+
+    router.afterEach((to, from) => {
+        // Complete the animation of the route progress bar.
+        nprogress.done()
+    });
+
 
     if (store.getters.currentUser) {
         setAuthorization(store.getters.currentUser.token);
     }
 
-    axios.interceptors.response.use(response => response, error => {
+    axios.interceptors.request.use(config => {
+        nprogress.start();
+        return config
+    });
+
+    axios.interceptors.response.use(response => {
+        nprogress.done();
+        return response
+    }, error => {
         const {status} = error.response;
 
         if (status >= 500) {
