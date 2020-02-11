@@ -7,16 +7,12 @@ use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-
-    public function authenticatedUser(){
-        return response()->json(['permissions'=> Auth::user()->allPermissions,
-            'roles'=>Auth::user()->getRoleNames()
-            ]);
-    }
+    use IssueTokenTrait;
 
     public function login(Request $request)
     {
@@ -26,46 +22,23 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-
-
-        $http = new \GuzzleHttp\Client;
-
-        try {
-
-            $response = $http->post(config('services.passport.login_endpoint'), [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => config('services.passport.client_id'),
-                    'client_secret' => config('services.passport.client_secret'),
-                    'username' => $request->email,
-                    'password' => $request->password,
-                ]
-            ]);
-
-            $token = $response->getBody();
-            $data = json_decode($token, true);
-            $user =  new UserResource(User::select('name','email')->where('email', $request->email)->first());
-            $user_all_details =  new UserResource(User::where('email', $request->email)->first());
-            $data = collect($data);
-            $data->put('user', $user);
-            $data->put('permissions', $user_all_details->getPermissionsViaRoles()->pluck('name'));
-            $data->put('roles', $user_all_details->getRoleNames());
-
-            return response()->json($data);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-
-            if ($e->getCode() == 401) {
-                return response()->json('Invalid Request. Please enter a username or a password.', $e->getCode());
-            } else if ($e->getCode() == 400) {
-                return response()->json('Your credentials are incorrect. Please try again', $e->getCode());
-            }
-
-            return response()->json('Something went wrong on the server.', $e->getCode());
-        }
+        $this->issueToken($request, 'password');
+        $proxy = Request::create(config('services.passport.login_endpoint'), 'POST');
+        return Route::dispatch($proxy);
 
     }
 
-    public function register(Request $request){
+    public function refresh(Request $request)
+    {
+        $this->validate($request, [
+            'refresh_token' => 'required'
+        ]);
+
+        return $this->issueToken($request, 'refresh_token');
+    }
+
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -73,17 +46,18 @@ class AuthController extends Controller
         ]);
 
         return User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>$request->password,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
         ]);
     }
 
-    public function logout(){
+    public function logout()
+    {
 
         $user = Auth::user()->token();
         $user->revoke();
 
-        return response()->json('Logged out successfully',200);
+        return response()->json('Logged out successfully', 200);
     }
 }

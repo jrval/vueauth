@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 //});
 
 Route::post('login', 'Api\Auth\AuthController@login')->name('login');
-
-
+Route::post('oauth/token', 'Api\AccessTokenController@issueToken');
+Route::post('refresh', 'Api\Auth\AuthController@refresh')->name('api.refresh');
 Route::middleware('auth:api')->group(function () {
 
     Route::post('logout', 'Api\Auth\AuthController@logout')->name('logout');
