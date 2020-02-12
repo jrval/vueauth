@@ -23,9 +23,9 @@ class AuthController extends Controller
         ]);
 
         $this->issueToken($request, 'password');
+
         $proxy = Request::create(config('services.passport.login_endpoint'), 'POST');
         return Route::dispatch($proxy);
-
     }
 
     public function refresh(Request $request)
