@@ -15,7 +15,8 @@ import NProgress from 'vue-nprogress';
 import App from './components/App'
 import VueSweetAlert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
+import { ValidationObserver } from 'vee-validate';
 const options = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674',
@@ -31,6 +32,8 @@ Vue.mixin(Roles);
 Vue.use(require('vue-moment'));
 Vue.use(VueSweetAlert2,options);
 Vue.use(NProgress);
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 const nprogress = new NProgress({ parent: 'body' });

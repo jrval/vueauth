@@ -27,6 +27,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('register', 'Api\Auth\AuthController@register')->name('register');
 
     Route::get('auth-user','Api\Auth\AuthController@authenticatedUser')->name('auth-user');
+    Route::patch('auth-user/update','Api\Auth\AuthController@authenticatedUserUpdate')->name('auth-user');
 
     Route::resource('users', 'Api\UserController');
 

@@ -2,6 +2,7 @@
 import Home from './components/Home'
 import Login from './components/authentication/Login'
 import Register from './components/authentication/Register'
+import Profile from "./components/profile/Profile";
 
 /*users*/
 import Users from './components/user/Users'
@@ -31,6 +32,7 @@ import Passport from "./components/passport/Passport";
 /*errors*/
 import Error_404 from "./components/errors/404"
 
+
 export const routes = [
     {
         path: '/',
@@ -56,6 +58,15 @@ export const routes = [
         component: Register,
         meta: {
             title: 'Register',
+        }
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: Profile,
+        meta: {
+            title: 'Profile',
+            requiresAuth: true,
         }
     },
     {

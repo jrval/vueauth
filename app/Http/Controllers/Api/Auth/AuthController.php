@@ -7,12 +7,36 @@ use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     use IssueTokenTrait;
+
+    public function authenticatedUser(){
+        $auth = auth()->user();
+        return response()->json(['user'=>$auth,'roles'=>$auth->getRoleNames()]);
+    }
+  public function authenticatedUserUpdate(Request $request){
+      $request->validate([
+          'password' => 'sometimes',
+          'password_confirmation' => 'sometimes|same:password',
+          'roles' => 'required',
+      ]);
+
+      $user = \auth()->user();
+      $user->update($request->except('roles', 'password_confirmation'));
+      $roles = $request->input('roles') ? $request->input('roles') : [];
+      $user->syncRoles($roles);
+      if ($user) {
+          return response()->json([
+              'status' => 'success',
+              'message' => 'User Successfully Updated'
+          ]);
+      }
+    }
 
     public function login(Request $request)
     {
