@@ -2370,6 +2370,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // import $ from 'jquery';
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Sidebar",
@@ -4774,6 +4778,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39985,7 +40005,24 @@ var render = function() {
           attrs: { id: "accordionSidebar" }
         },
         [
-          _vm._m(0),
+          _c(
+            "router-link",
+            {
+              staticClass:
+                "sidebar-brand d-flex align-items-center justify-content-center",
+              attrs: { to: { name: "home" } }
+            },
+            [
+              _c("div", { staticClass: "sidebar-brand-icon rotate-n-15" }, [
+                _c("i", { staticClass: "fas fa-laugh-wink" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "sidebar-brand-text mx-3" }, [
+                _vm._v("SB Admin "),
+                _c("sup", [_vm._v("2")])
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c("hr", { staticClass: "sidebar-divider my-0" }),
           _vm._v(" "),
@@ -40073,9 +40110,9 @@ var render = function() {
               ]
             : _vm._e(),
           _vm._v(" "),
-          _vm._m(1),
+          _vm._m(0),
           _vm._v(" "),
-          _vm._m(2),
+          _vm._m(1),
           _vm._v(" "),
           _c("hr", { staticClass: "sidebar-divider" }),
           _vm._v(" "),
@@ -40083,11 +40120,11 @@ var render = function() {
             _vm._v("\n        Addons\n    ")
           ]),
           _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
           _vm._m(3),
           _vm._v(" "),
           _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
           _vm._v(" "),
           _c("hr", { staticClass: "sidebar-divider d-none d-md-block" }),
           _vm._v(" "),
@@ -40104,29 +40141,6 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass:
-          "sidebar-brand d-flex align-items-center justify-content-center",
-        attrs: { href: "index.html" }
-      },
-      [
-        _c("div", { staticClass: "sidebar-brand-icon rotate-n-15" }, [
-          _c("i", { staticClass: "fas fa-laugh-wink" })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "sidebar-brand-text mx-3" }, [
-          _vm._v("SB Admin "),
-          _c("sup", [_vm._v("2")])
-        ])
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -44081,7 +44095,7 @@ var render = function() {
                   staticClass: "btn btn-success",
                   attrs: { to: { name: "users-create" } }
                 },
-                [_vm._v("Create User")]
+                [_vm._v("Create\n                User\n            ")]
               )
             : _vm._e()
         ],
@@ -44136,7 +44150,7 @@ var render = function() {
                     selected: _vm.currentPage === perPage
                   }
                 },
-                [_vm._v(_vm._s(perPage))]
+                [_vm._v(_vm._s(perPage) + "\n                    ")]
               )
             }),
             0
@@ -44215,7 +44229,7 @@ var render = function() {
                         })
                       ]),
                       _vm._v(
-                        "\n                            Name\n                        "
+                        "\n                        Name\n                    "
                       )
                     ]
                   ),
@@ -44245,7 +44259,9 @@ var render = function() {
                           }
                         })
                       ]),
-                      _vm._v("\n                            Email")
+                      _vm._v(
+                        "\n                        Email\n                    "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -44276,7 +44292,9 @@ var render = function() {
                           }
                         })
                       ]),
-                      _vm._v("\n                            Created at")
+                      _vm._v(
+                        "\n                        Created at\n                    "
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -44301,9 +44319,9 @@ var render = function() {
                             { staticClass: "badge badge-primary" },
                             [
                               _vm._v(
-                                "\n                               " +
+                                "\n                           " +
                                   _vm._s(role.name) +
-                                  "\n                            "
+                                  "\n                        "
                               )
                             ]
                           )
@@ -44329,7 +44347,11 @@ var render = function() {
                                   staticClass: "btn btn-info btn-sm",
                                   attrs: { to: "/users/" + user.id }
                                 },
-                                [_vm._v("View")]
+                                [
+                                  _vm._v(
+                                    "\n                            View\n                        "
+                                  )
+                                ]
                               )
                             : _vm._e(),
                           _vm._v(" "),
@@ -44340,7 +44362,7 @@ var render = function() {
                                   staticClass: "btn btn-success btn-sm",
                                   attrs: { to: "/users/" + user.id + "/edit" }
                                 },
-                                [_vm._v("Edit")]
+                                [_vm._v("Edit\n                        ")]
                               )
                             : _vm._e(),
                           _vm._v(" "),
@@ -44355,7 +44377,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("Delete")]
+                                [_vm._v("Delete\n                        ")]
                               )
                             : _vm._e()
                         ],

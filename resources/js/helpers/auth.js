@@ -1,10 +1,10 @@
-import { setAuthorization } from "./general";
+import {setAuthorization} from "./general";
 
 export function login(credentials) {
 
     return new Promise((res, rej) => {
 
-        axios.post('/api/login',credentials)
+        axios.post('/api/login', credentials)
             .then((response) => {
                 setAuthorization(response.data.access_token);
                 res(response.data);
@@ -18,7 +18,7 @@ export function login(credentials) {
 
 export function getLocalUser() {
     const userStr = localStorage.getItem("user");
-    if(!userStr){
+    if (!userStr) {
         return null;
     }
 
@@ -28,7 +28,7 @@ export function getLocalUser() {
 export function getLocalPermissions() {
     //const permissionsStr = localStorage.getItem("permissions");
     const permissionsStr = $cookies.get("permissions");
-    if(!permissionsStr){
+    if (!permissionsStr) {
         return null;
     }
 
@@ -38,7 +38,7 @@ export function getLocalPermissions() {
 export function getLocalRoles() {
     //const rolesStr = localStorage.getItem("roles");
     const rolesStr = $cookies.get("roles");
-    if(!rolesStr){
+    if (!rolesStr) {
         return null;
     }
 

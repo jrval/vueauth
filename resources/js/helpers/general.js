@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-export function initialize(store, router,nprogress) {
+export function initialize(store, router, nprogress) {
     router.beforeEach((to, from, next) => {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
         const currentUser = store.state.currentUser;
@@ -13,16 +13,16 @@ export function initialize(store, router,nprogress) {
             next('/');
         } else {
             let roles = '';
-            if(currentRoles){
+            if (currentRoles) {
                 roles = Vue.CryptoJS.AES.decrypt(currentRoles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
             }
 
             if (!to.meta.roles) {
                 return next()
-            }else{
-                if (JSON.parse(roles).some(r=>to.meta.roles.includes(r))) {
+            } else {
+                if (JSON.parse(roles).some(r => to.meta.roles.includes(r))) {
                     next();
-                }else{
+                } else {
                     next('/404');
                 }
             }
