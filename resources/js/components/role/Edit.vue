@@ -6,43 +6,35 @@
                     {{err[0] || err}}
                 </p>
             </div>
-
-            <form v-on:submit.prevent="updateRole">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control"  placeholder="Enter name" v-model="role.name">
-
-                </div>
-
-                <div class="form-group">
-                    <label>Select Permission</label>
-                    <select class="form-control" multiple="" size="10%" v-model="role.permissions"  >
-                        <option :value="permission.name" v-for="permission in permissions.data" :key="permission.id"  :selected=" role.permissions ===permission.name">{{permission.name}}</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-danger" @click="$router.go(-1)">Back</button>
-            </form>
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+                <form v-on:submit.prevent="updateRole">
+                    <RoleForm :role="role" :permissions="permissions"></RoleForm>
+                    <ButtonsElement :submit=true :back=true></ButtonsElement>
+                </form>
+            </ValidationObserver>
         </div>
     </div>
 </template>
 
 <script>
+    import RoleForm from "./_Form";
+    import ButtonsElement from "../elements/Buttons";
     export default {
         name: "Edit",
-        data(){
+        components: {ButtonsElement, RoleForm},
+        data() {
             return {
-                role:null,
-                permissions:[],
-                errors:null
+                role: null,
+                permissions: [],
+                errors: null
             }
         },
         created() {
             this.getRole();
             this.getPermissions();
         },
-        methods:{
-            getRole(){
+        methods: {
+            getRole() {
                 axios.get(`/api/roles/${this.$route.params.id}/edit`)
                     .then((response) => {
                         console.log(response);
@@ -54,7 +46,7 @@
                         this.role.permissions = permission;
                     });
             },
-            updateRole(){
+            updateRole() {
                 axios.put(`/api/roles/${this.$route.params.id}`, this.role)
                     .then((response) => {
                         this.$swal.fire({
@@ -63,14 +55,14 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        this.$router.push({name:'role-table'});
+                        this.$router.push({name: 'role-table'});
                     }).catch((error) => {
                     if (error.response.status === 422) {
                         this.errors = error.response.data.errors;
                     }
                 });
             },
-            getPermissions(){
+            getPermissions() {
                 axios.get('/api/permissions?sortby=name&sortdir=asc')
                     .then((response) => {
                         this.permissions = response.data;

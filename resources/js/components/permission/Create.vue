@@ -6,23 +6,24 @@
                     {{err[0] || err}}
                 </p>
             </div>
-
-
-
-            <form v-on:submit.prevent="addPermission">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" placeholder="Permission name" v-model="permission.name">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-danger" @click="$router.go(-1)">Back</button>
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+            <form v-on:submit.prevent="handleSubmit(addPermission)">
+                <PermissionForm :permission="permission" ></PermissionForm>
+                <ButtonsElement :submit=true :back=true></ButtonsElement>
             </form>
+            </ValidationObserver>
         </div>
     </div>
 </template>
 
 <script>
+    import PermissionForm from './_Form';
+    import ButtonsElement from "../elements/Buttons";
     export default {
+        components: {
+            ButtonsElement,
+            PermissionForm,
+        },
         name: "Create",
         data(){
             return {

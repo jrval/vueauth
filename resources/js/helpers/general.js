@@ -61,7 +61,7 @@ export function initialize(store, router,nprogress) {
         return response
     }, error => {
         const {status} = error.response;
-
+        nprogress.done();
         if (status >= 500) {
             Vue.swal.fire({
                 icon: 'error',

@@ -6,42 +6,40 @@
                     {{err[0] || err}}
                 </p>
             </div>
-            <form v-on:submit.prevent="addRole">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" placeholder="Role name" v-model="role.name">
-                </div>
-                <div class="form-group">
-                    <label>Select Permission</label>
-                    <select class="form-control" multiple="" size="10%" v-model="role.permissions" >
-                        <option :value="permission.name" v-for="permission in permissions.data" :key="permission.id">{{permission.name}}</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-danger" @click="$router.go(-1)">Back</button>
-            </form>
+            <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+                <form v-on:submit.prevent="handleSubmit(addRole)">
+                    <RoleForm :role="role" :permissions="permissions"></RoleForm>
+                    <ButtonsElement :submit=true :back=true></ButtonsElement>
+                </form>
+            </ValidationObserver>
         </div>
     </div>
 </template>
 
 <script>
+    import RoleForm from "./_Form";
+    import ButtonsElement from "../elements/Buttons";
     export default {
         name: "Create",
-        data(){
+        components: {
+            ButtonsElement,
+            RoleForm,
+        },
+        data() {
             return {
-                role:{
-                    'name':'',
-                    'permissions':[],
+                role: {
+                    'name': '',
+                    'permissions': [],
                 },
-                permissions:[],
-                errors:null
+                permissions: [],
+                errors: null
             }
         },
         created() {
             this.getPermissions();
         },
-        methods:{
-            addRole(){
+        methods: {
+            addRole() {
                 axios.post('/api/roles', this.role)
                     .then((response) => {
                         this.$swal.fire({
@@ -50,15 +48,15 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        this.$router.push({name:'role-table'});
+                        this.$router.push({name: 'role-table'});
                     }).catch((error) => {
-                    this.role.name  = '';
+                    this.role.name = '';
                     if (error.response.status === 422) {
                         this.errors = error.response.data.errors;
                     }
                 });
             },
-            getPermissions(){
+            getPermissions() {
 
                 axios.get('/api/permissions?sortby=name&sortdir=asc')
                     .then((response) => {
