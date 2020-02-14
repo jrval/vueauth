@@ -23,14 +23,17 @@ class RoleController extends Controller
             return abort(403);
         }
 
-        $searchValue = $request->search;
-        $orderBy = $request->sortby;
-        $orderByDir = $request->sortdir;
-        $perPage = $request->currentpage;
+        if($request->showAll) {
+            $query = Role::with('permissions')->orderBy('name','asc')->get();
+        }else{
+            $searchValue = $request->search;
+            $orderBy = $request->sortby;
+            $orderByDir = $request->sortdir;
+            $perPage = $request->currentpage;
 
-        $query = Role::with('permissions')->where('name', 'LIKE', "%$searchValue%")
-            ->orderBy($orderBy, $orderByDir)->paginate($perPage);
-
+            $query = Role::with('permissions')->where('name', 'LIKE', "%$searchValue%")
+                ->orderBy($orderBy, $orderByDir)->paginate($perPage);
+        }
 
         return new RoleCollection($query);
     }

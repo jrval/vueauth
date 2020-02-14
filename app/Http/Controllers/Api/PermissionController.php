@@ -22,13 +22,20 @@ class PermissionController extends Controller
         if (! Gate::allows('permission_view')) {
             return abort(403);
         }
-        $searchValue = $request->search;
-        $orderBy = $request->sortby;
-        $orderByDir = $request->sortdir;
-        $perPage = $request->currentpage;
 
-        $query = Permission::where('name', 'LIKE', "%$searchValue%")
-            ->orderBy($orderBy, $orderByDir)->paginate($perPage);
+        if($request->showAll) {
+            $query = Permission::orderBy('name','asc')->get();
+        }else{
+            $searchValue = $request->search;
+            $orderBy = $request->sortby;
+            $orderByDir = $request->sortdir;
+            $perPage = $request->currentpage;
+
+            $query = Permission::where('name', 'LIKE', "%$searchValue%")
+                ->orderBy($orderBy, $orderByDir)->paginate($perPage);
+        }
+
+
 
 
         return new PermissionCollection($query);

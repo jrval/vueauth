@@ -63,7 +63,7 @@
                 });
             },
             getPermissions() {
-                axios.get('/api/permissions?sortby=name&sortdir=asc')
+                axios.get('/api/permissions?showAll=true')
                     .then((response) => {
                         this.permissions = response.data;
                     })

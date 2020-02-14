@@ -67,7 +67,7 @@
             },
             getRoles(){
 
-                axios.get('/api/roles?sortby=name&sortdir=asc')
+                axios.get('/api/roles?showAll=true')
                     .then((response) => {
                         this.roles = response.data;
                     }).catch((error) => {

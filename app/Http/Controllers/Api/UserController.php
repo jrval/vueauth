@@ -23,14 +23,21 @@ class UserController extends Controller
         if (! Gate::allows('user_view')) {
             return abort(403);
         }
-        $searchValue = $request->search;
-        $orderBy = $request->sortby;
-        $orderByDir = $request->sortdir;
-        $perPage = $request->currentpage;
-        $query = User::with('roles')->where('name', 'LIKE', "%$searchValue%")
-            ->orwhere('email', 'LIKE', "%$searchValue%")
-            ->orwhereDate('created_at', 'LIKE', "%$searchValue%")
-            ->orderBy($orderBy, $orderByDir)->paginate($perPage);
+
+        if($request->showAll) {
+            $query = User::with('roles')->orderBy('name','asc')->get();
+        }else{
+            $searchValue = $request->search;
+            $orderBy = $request->sortby;
+            $orderByDir = $request->sortdir;
+            $perPage = $request->currentpage;
+
+            $query = User::with('roles')->where('name', 'LIKE', "%$searchValue%")
+                ->orwhere('email', 'LIKE', "%$searchValue%")
+                ->orwhereDate('created_at', 'LIKE', "%$searchValue%")
+                ->orderBy($orderBy, $orderByDir)->paginate($perPage);
+        }
+
         return new UserCollection($query);
     }
 
