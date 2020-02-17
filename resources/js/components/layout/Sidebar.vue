@@ -23,11 +23,12 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Admin
-        </div>
+
         <template v-if="$is('administrator')">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Admin
+            </div>
             <router-link tag="li" :to="{ name: 'users-table' }" class="nav-item" v-if="currentUser">
                 <a class="nav-link">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -46,6 +47,21 @@
                     <span>Roles</span></a>
             </router-link>
         </template>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Blog
+        </div>
+
+        <router-link tag="li" :to="{ name: 'category-table' }" class="nav-item" v-if="currentUser">
+            <a class="nav-link">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Categories</span></a>
+        </router-link>
+        <router-link tag="li" :to="{ name: 'post-table' }" class="nav-item" v-if="currentUser">
+            <a class="nav-link">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Posts</span></a>
+        </router-link>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"

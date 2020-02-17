@@ -17,6 +17,7 @@ import VueSweetAlert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
 import { ValidationObserver } from 'vee-validate';
+
 const options = {
     confirmButtonColor: '#41b882',
     cancelButtonColor: '#ff7674',

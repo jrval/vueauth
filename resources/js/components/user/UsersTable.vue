@@ -99,7 +99,7 @@
                     </tbody>
                 </table>
 
-                <p class="float-left">Showing {{meta.from}} to {{meta.to}} of {{meta.total}} entries</p>
+                <p class="float-left">Showing {{meta.from || 0}} to {{meta.to || 0}} of {{meta.total || 0}} entries</p>
                 <pagination class="float-right" :data="users" @pagination-change-page="index" :limit="5"/>
             </div>
         </div>
@@ -138,37 +138,17 @@
                 if (typeof page === 'undefined') {
                     this.page = 1;
                 }
-                if (this.isSearch) {
+                let uri = process.env.MIX_APP_URL + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+                this.uri = uri;
+                this.page = page;
+                axios.get(uri)
+                    .then(response => {
+                        this.users = response.data;
+                        this.meta.total = response.data.meta.total;
+                        this.meta.from = response.data.meta.from;
+                        this.meta.to = response.data.meta.to;
 
-                    let uri = process.env.MIX_APP_URL + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
-                    this.uri = uri;
-                    this.page = page;
-                    axios.get(uri)
-                        .then(response => {
-                            this.users = response.data;
-                            this.meta.total = response.data.meta.total;
-                            this.meta.from = response.data.meta.from;
-                            this.meta.to = response.data.meta.to;
-
-                        });
-
-
-                } else {
-                    let uri = process.env.MIX_APP_URL + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
-                    this.uri = uri;
-                    this.page = page;
-                    axios.get(uri)
-                        .then(response => {
-                            this.users = response.data;
-                            this.meta.total = response.data.meta.total;
-                            this.meta.from = response.data.meta.from;
-                            this.meta.to = response.data.meta.to;
-
-                        });
-
-                }
-
-
+                    });
             },
             sort(s) {
                 console.log(s);
