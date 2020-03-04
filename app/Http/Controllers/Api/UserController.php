@@ -65,6 +65,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255','unique::users','regex:/(^[A-Za-z0-9-_]+$)+/'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'roles' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -124,6 +125,7 @@ class UserController extends Controller
         }
         $request->validate([
             'name' => 'required',
+            'username' => 'required|string|max:25|unique:users,username,'.$id.'|regex:/(^[A-Za-z0-9-_]+$)+/',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
             'password' => 'sometimes',
             'password_confirmation' => 'sometimes|same:password',

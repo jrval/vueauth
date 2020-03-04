@@ -48,6 +48,8 @@ class UserTableSeeder extends Seeder
         //Create Super admin
         $user = User::create([
             'name' => 'Admin',
+            'username' => 'admin',
+            'avatar' => 'https://i.pravatar.cc/300',
             'email' => 'admin@admin.com',
             'password' => 'password',
         ]);

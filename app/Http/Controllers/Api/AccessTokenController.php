@@ -21,7 +21,7 @@ class AccessTokenController extends ATC
 
             //get user
             //change to 'email' if you want
-            $user = new UserResource(User::where('email', $response['email'])->first());
+            $user = new UserResource(User::where('email', $response['email'])->orWhere('username', $response['email'])->first());
 
             //generate token
             $tokenResponse = parent::issueToken($request);
@@ -38,20 +38,23 @@ class AccessTokenController extends ATC
             $roles = $user->getRoleNames();
             //get permissions
             $permissions = $user->getPermissionsViaRoles()->pluck('name');
-            $data->put('user', ['name' => $user->name, 'email' => $user->email]);
+            $data->put('user',
+                [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'avatar' => $user->avatar
+                ]);
             $data->put('roles', $roles);
             $data->put('permissions', $permissions);
 
             return response()->json($data);
-        }  catch (ModelNotFoundException $e) { // email notfound
+        } catch (ModelNotFoundException $e) { // email notfound
             //return error message
             return response()->json('Invalid Request. Username/Email not found.', 401);
-        }
-        catch (OAuthServerException $e) { //password not correct..token not granted
+        } catch (OAuthServerException $e) { //password not correct..token not granted
             //return error message
             return response()->json('Your credentials are incorrect. Please try again', $e->statusCode());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
 

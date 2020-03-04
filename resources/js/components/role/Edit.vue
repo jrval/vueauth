@@ -37,7 +37,7 @@
             getRole() {
                 axios.get(`/api/roles/${this.$route.params.id}/edit`)
                     .then((response) => {
-                        console.log(response);
+
                         this.role = response.data.data;
                         let permission = [];
                         this.role.permissions.forEach(obj => {

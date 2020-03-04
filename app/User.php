@@ -52,4 +52,8 @@ class User extends Authenticatable
         if ($input)
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
     }
+    
+    public function findForPassport($identifier) {
+        return $this->Where('email',$identifier)->orWhere('username', $identifier)->first();
+    }
 }

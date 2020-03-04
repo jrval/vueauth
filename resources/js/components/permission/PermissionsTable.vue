@@ -127,7 +127,7 @@
 
             },
             sort(s) {
-                console.log(s);
+
                 if (s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
                     if (this.currentSortDir === 'asc') {

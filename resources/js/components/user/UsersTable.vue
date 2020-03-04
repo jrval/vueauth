@@ -138,7 +138,7 @@
                 if (typeof page === 'undefined') {
                     this.page = 1;
                 }
-                let uri = process.env.MIX_APP_URL + '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+                let uri = '/api/users?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
                 this.uri = uri;
                 this.page = page;
                 axios.get(uri)
@@ -151,7 +151,6 @@
                     });
             },
             sort(s) {
-                console.log(s);
                 if (s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
                     if (this.currentSortDir === 'asc') {

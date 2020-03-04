@@ -26,7 +26,7 @@
 
                                     <form class="user" v-on:submit.prevent="authenticate">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." v-model="form.email">
+                                            <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." v-model="form.email">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" v-model="form.password">
@@ -43,12 +43,6 @@
 
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +87,6 @@
                     this.$router.push({name:'home'});
                 }).catch((error)=>{
                     this.$store.commit('loginFailed',{error});
-                    console.log(this.$store.state.auth_error.status);
                     if(this.$store.state.auth_error.status=== 422){
                         this.errors = this.$store.state.auth_error.data.errors;
                     }else if(this.$store.state.auth_error.status===400){

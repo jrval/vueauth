@@ -10,6 +10,15 @@
 
         </div>
         <div class="form-group">
+            <label>Username</label>
+            <ValidationProvider name="username" rules="required: true|regex:(^[A-Za-z0-9-_]+$)+" v-slot="{ errors }">
+                <input type="text" class="form-control" name="username" placeholder="Enter username"
+                       v-model="user.username" :class="{'is-invalid':errors[0]}">
+                <span class="text-danger">{{ errors[0] }}</span>
+            </ValidationProvider>
+
+        </div>
+        <div class="form-group">
             <label>Email address</label>
             <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
                 <input type="email" class="form-control" name="email" aria-describedby="emailHelp"

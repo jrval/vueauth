@@ -1,7 +1,6 @@
 /*auth*/
 import Home from './components/Home'
 import Login from './components/authentication/Login'
-import Register from './components/authentication/Register'
 import Profile from "./components/profile/Profile";
 
 /*users*/
@@ -15,14 +14,14 @@ import UserEdit from "./components/user/Edit";
 import Permission from "./components/permission/Permission";
 import PermissionsTable from "./components/permission/PermissionsTable";
 import PermissionCreate from "./components/permission/Create";
-import PermissionView from "./components/permission/View";
+import PermissionView from "./components/permission/Show";
 import PermissionEdit from "./components/permission/Edit";
 
 /*role*/
 import Role from "./components/role/Role";
 import RolesTable from "./components/role/RolesTable";
 import RoleCreate from "./components/role/Create";
-import RoleView from "./components/role/View";
+import RoleView from "./components/role/Show";
 import RoleEdit from "./components/role/Edit";
 
 
@@ -50,14 +49,6 @@ export const routes = [
         meta: {
             title: 'Login',
 
-        }
-    },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register,
-        meta: {
-            title: 'Register',
         }
     },
     {

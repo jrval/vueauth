@@ -48,8 +48,11 @@ export default {
             state.auth_roles = Vue.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.roles)), process.env.MIX_CRYPTO_JS_PASSPHRASE).toString();
 
             localStorage.setItem("user",JSON.stringify(state.currentUser));
-            $cookies.set("permissions",state.auth_permissions);
-            $cookies.set("roles",state.auth_roles);
+            localStorage.setItem("user",JSON.stringify(state.currentUser));
+            localStorage.setItem("permissions",state.auth_permissions);
+            localStorage.setItem("roles",state.auth_roles);
+            // $cookies.set("permissions",state.auth_permissions);
+            // $cookies.set("roles",state.auth_roles);
         },
         loginFailed(state,payload){
             state.loading = false;
@@ -57,8 +60,11 @@ export default {
         },
         logout(state){
             localStorage.removeItem("user");
-            $cookies.remove("permissions");
-            $cookies.remove("roles");
+            localStorage.removeItem("user");
+            localStorage.removeItem("permissions");
+            localStorage.removeItem("roles");
+            // $cookies.remove("permissions");
+            // $cookies.remove("roles");
             state.isLoggedIn = false;
             state.currentUser = null;
             state.auth_permissions = null;

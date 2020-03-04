@@ -15,6 +15,11 @@
                         <input type="text" class="form-control" placeholder="Enter name" v-model="user.name" disabled>
                     </div>
                     <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username" placeholder="Enter username" disabled
+                               v-model="user.username">
+                    </div>
+                    <div class="form-group">
                         <label>Email address</label>
                         <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"
                                v-model="user.email" disabled>

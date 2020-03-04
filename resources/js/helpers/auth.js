@@ -27,7 +27,8 @@ export function getLocalUser() {
 
 export function getLocalPermissions() {
     //const permissionsStr = localStorage.getItem("permissions");
-    const permissionsStr = $cookies.get("permissions");
+   // const permissionsStr = $cookies.get("permissions");
+    const permissionsStr = localStorage.getItem("permissions");
     if (!permissionsStr) {
         return null;
     }
@@ -36,8 +37,8 @@ export function getLocalPermissions() {
 }
 
 export function getLocalRoles() {
-    //const rolesStr = localStorage.getItem("roles");
-    const rolesStr = $cookies.get("roles");
+    const rolesStr = localStorage.getItem("roles");
+    //const rolesStr = $cookies.get("roles");
     if (!rolesStr) {
         return null;
     }
