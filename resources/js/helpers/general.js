@@ -12,22 +12,35 @@ export function initialize(store, router, nprogress) {
         } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
             next('/');
         } else {
-            let roles = '';
-            if (currentRoles) {
-                roles = Vue.CryptoJS.AES.decrypt(currentRoles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
-            }
-
-            if (!to.meta.roles) {
-                return next()
+            if (!requiresAuth) {
+                return next();
             } else {
-                if (JSON.parse(roles).some(r => to.meta.roles.includes(r))) {
-                    next();
-                } else {
-                    next('/404');
+                let roles = '';
+                let permissions = '';
+
+                if (currentRoles) {
+                    roles = Vue.CryptoJS.AES.decrypt(currentRoles, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
+                    permissions = Vue.CryptoJS.AES.decrypt(currentPermissions, process.env.MIX_CRYPTO_JS_PASSPHRASE).toString(Vue.CryptoJS.enc.Utf8);
+                }
+
+                if (!to.meta.roles) { //if no roles present
+                    if (!to.meta.permissions) { //check if permission is present
+                        return next()
+                    } else { //if permissions is present
+                        if (JSON.parse(permissions).some(r => to.meta.permissions.includes(r))) {
+                            next();
+                        } else {
+                            next('/404');
+                        }
+                    }
+                } else { //if roles is present
+                    if (JSON.parse(roles).some(r => to.meta.roles.includes(r))) {
+                        next();
+                    } else {
+                        next('/404');
+                    }
                 }
             }
-
-
         }
 
     });
@@ -61,6 +74,7 @@ export function initialize(store, router, nprogress) {
         return response
     }, error => {
         const {status} = error.response;
+        console.log(error);
         nprogress.done();
         if (status >= 500) {
             Vue.swal.fire({

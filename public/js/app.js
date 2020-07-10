@@ -3669,7 +3669,7 @@ __webpack_require__.r(__webpack_exports__);
         this.page = 1;
       }
 
-      var uri = "http://vueauth.test:85/" + '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+      var uri = '/api/permissions?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
       this.uri = uri;
       this.page = page;
       axios.get(uri).then(function (response) {
@@ -4262,7 +4262,7 @@ __webpack_require__.r(__webpack_exports__);
         this.page = 1;
       }
 
-      var uri = "http://vueauth.test:85/" + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+      var uri = '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
       this.uri = uri;
       this.page = page;
       axios.get(uri).then(function (response) {
@@ -65901,7 +65901,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = "http://vueauth.test:85/";
+window.axios.defaults.baseURL = window.location.origin;
 
 /***/ }),
 
@@ -68273,21 +68273,41 @@ function initialize(store, router, nprogress) {
     } else if (to.path === '/login' && currentUser && currentPermissions && currentRoles) {
       next('/');
     } else {
-      var roles = '';
-
-      if (currentRoles) {
-        roles = vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.AES.decrypt(currentRoles, "shakegwapo").toString(vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.enc.Utf8);
-      }
-
-      if (!to.meta.roles) {
+      if (!requiresAuth) {
         return next();
       } else {
-        if (JSON.parse(roles).some(function (r) {
-          return to.meta.roles.includes(r);
-        })) {
-          next();
+        var roles = '';
+        var permissions = '';
+
+        if (currentRoles) {
+          roles = vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.AES.decrypt(currentRoles, "vuejs").toString(vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.enc.Utf8);
+          permissions = vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.AES.decrypt(currentPermissions, "vuejs").toString(vue__WEBPACK_IMPORTED_MODULE_0___default.a.CryptoJS.enc.Utf8);
+        }
+
+        if (!to.meta.roles) {
+          //if no roles present
+          if (!to.meta.permissions) {
+            //check if permission is present
+            return next();
+          } else {
+            //if permissions is present
+            if (JSON.parse(permissions).some(function (r) {
+              return to.meta.permissions.includes(r);
+            })) {
+              next();
+            } else {
+              next('/404');
+            }
+          }
         } else {
-          next('/404');
+          //if roles is present
+          if (JSON.parse(roles).some(function (r) {
+            return to.meta.roles.includes(r);
+          })) {
+            next();
+          } else {
+            next('/404');
+          }
         }
       }
     }
@@ -68319,6 +68339,7 @@ function initialize(store, router, nprogress) {
     return response;
   }, function (error) {
     var status = error.response.status;
+    console.log(error);
     nprogress.done();
 
     if (status >= 500) {
@@ -68738,10 +68759,10 @@ var roles = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalRoles"])(
       return state.auth_error;
     },
     authPermissions: function authPermissions(state) {
-      return vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.decrypt(state.auth_permissions, "shakegwapo").toString(vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.enc.Utf8);
+      return vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.decrypt(state.auth_permissions, "vuejs").toString(vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.enc.Utf8);
     },
     authRoles: function authRoles(state) {
-      return vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.decrypt(state.auth_roles, "shakegwapo").toString(vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.enc.Utf8);
+      return vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.decrypt(state.auth_roles, "vuejs").toString(vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.enc.Utf8);
     }
   },
   mutations: {
@@ -68756,8 +68777,8 @@ var roles = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalRoles"])(
       state.currentUser = Object.assign({}, payload.user, {
         token: payload.access_token
       });
-      state.auth_permissions = vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.permissions)), "shakegwapo").toString();
-      state.auth_roles = vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.roles)), "shakegwapo").toString();
+      state.auth_permissions = vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.permissions)), "vuejs").toString();
+      state.auth_roles = vue__WEBPACK_IMPORTED_MODULE_1___default.a.CryptoJS.AES.encrypt(JSON.stringify(Object.assign(payload.roles)), "vuejs").toString();
       localStorage.setItem("user", JSON.stringify(state.currentUser));
       localStorage.setItem("user", JSON.stringify(state.currentUser));
       localStorage.setItem("permissions", state.auth_permissions);
@@ -68808,8 +68829,8 @@ var roles = Object(_helpers_auth__WEBPACK_IMPORTED_MODULE_0__["getLocalRoles"])(
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\vueauth\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\vueauth\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

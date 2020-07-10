@@ -121,7 +121,7 @@
                 if (typeof page === 'undefined') {
                     this.page = 1;
                 }
-                let uri = process.env.MIX_APP_URL + '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
+                let uri = '/api/roles?page=' + page + '&search=' + this.search + '&sortby=' + this.currentSort + '&sortdir=' + this.currentSortDir + '&currentpage=' + this.currentPage;
                 this.uri = uri;
                 this.page = page;
                 axios.get(uri)
